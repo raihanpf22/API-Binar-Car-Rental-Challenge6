@@ -9,6 +9,8 @@ export type ICar = {
   status?: boolean;
   transmision?: string;
   type?: string;
+  createdBy?: string;
+  updatedBy?: string;
   createdAt?: Date;
   UpdatedAt?: Date;
 };

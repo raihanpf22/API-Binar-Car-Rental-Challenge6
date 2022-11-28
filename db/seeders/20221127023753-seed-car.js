@@ -26,6 +26,7 @@ module.exports = {
         status: true,
         transmision: "Manual",
         type: "Fortuner",
+        createdBy: "raihanpambagyo@gmail.com",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -39,6 +40,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete("cars", null, {});
+    await queryInterface.bulkDelete("Cars", null, {});
   },
 };

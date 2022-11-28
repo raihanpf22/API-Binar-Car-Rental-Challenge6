@@ -37,6 +37,8 @@ class carService {
     status,
     transmision,
     type,
+    createdBy,
+    updatedBy,
   }: ICar) {
     try {
       const createCar = await carRepository.create({
@@ -49,6 +51,8 @@ class carService {
         status,
         transmision,
         type,
+        createdBy,
+        updatedBy,
       });
 
       if (!createCar) {
@@ -84,6 +88,8 @@ class carService {
     status,
     transmision,
     type,
+    updatedBy,
+    UpdatedAt
   }: ICar) {
     try {
       const updateCar = await carRepository.update({
@@ -97,6 +103,8 @@ class carService {
         status,
         transmision,
         type,
+        updatedBy,
+        UpdatedAt,
       });
 
       if (!updateCar) {

@@ -75,6 +75,18 @@ export class Car extends Model {
   })
   type!: string;
 
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  createdBy!: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  updatedBy!: string;
+
   @CreatedAt
   createdAt!: Date;
 

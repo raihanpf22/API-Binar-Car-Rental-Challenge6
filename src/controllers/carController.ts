@@ -1,7 +1,9 @@
 import express, { Request, response, Response } from "express";
 import carService from "../services/carService";
 import { IResponse } from "../interface/IResponse";
-import { request } from "http";
+import jwt from "jsonwebtoken";
+import { JWT } from "../lib/const";
+import userRepository from "../repositories/userRepository";
 const { Cloudinary } = require("../utils/cloudinary");
 
 const app = express();
@@ -24,6 +26,20 @@ export const carCreate = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
+  const authHeader = req.get("Authorization");
+  let token:string = "";
+
+  if (authHeader && authHeader.startsWith("Bearer")) {
+    token = authHeader.split(" ")[1];
+  } else {
+    return res.status(401).send({
+      status_code: 401,
+      message: "You must be login first, before access this endpoint.",
+      data: "Null",
+    });
+  }
+  const { email }: any = jwt.verify(token, JWT.SECRET as string);
+
   const {
     no_police,
     brand,
@@ -48,6 +64,8 @@ export const carCreate = async (
     status,
     transmision,
     type,
+    createdBy:email,
+    updatedBy:email,
   });
 
   return res.status(201).send({
@@ -62,6 +80,22 @@ export const carUpdate = async (
   res: Response
 ): Promise<Response> => {
   const { id } = req.params;
+
+  const authHeader = req.get("Authorization");
+  let token: string = "";
+
+  if (authHeader && authHeader.startsWith("Bearer")) {
+    token = authHeader.split(" ")[1];
+  } else {
+    return res.status(401).send({
+      status_code: 401,
+      message: "You must be login first, before access this endpoint.",
+      data: "Null",
+    });
+  }
+  const { email }: any = jwt.verify(token, JWT.SECRET as string);
+
+  const update_at = new Date();
 
   const {
     no_police,
@@ -85,6 +119,8 @@ export const carUpdate = async (
     status,
     transmision,
     type,
+    updatedBy:email,
+    UpdatedAt:update_at
   });
 
   const { status_code, message, data }: IResponse = await carService.getById({

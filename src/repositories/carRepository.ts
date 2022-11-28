@@ -18,6 +18,8 @@ class carRepository {
     status,
     transmision,
     type,
+    createdBy,
+    updatedBy,
   }: ICar) {
     const create = await Car.create({
       no_police,
@@ -29,6 +31,8 @@ class carRepository {
       status,
       transmision,
       type,
+      createdBy,
+      updatedBy,
     });
 
     return create;
@@ -45,6 +49,8 @@ class carRepository {
     status,
     transmision,
     type,
+    createdBy,
+    updatedBy,
   }: ICar) {
     const updateCar = await Car.update(
       {
@@ -57,6 +63,8 @@ class carRepository {
         status,
         transmision,
         type,
+        createdBy,
+        updatedBy,
       },
       { where: { id } }
     );

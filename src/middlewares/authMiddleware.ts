@@ -1,5 +1,5 @@
 import { ROLES } from "../lib/const";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { JWT } from "../lib/const";
 import userRepository from "../repositories/userRepository";
 
@@ -21,7 +21,6 @@ export const authenticate = async (req: any, res: any, next: any) => {
     const { email }: any = jwt.verify(token, JWT.SECRET as string);
 
     const getUser = await userRepository.getByEmail({ email });
-
     req.user = getUser;
 
     next();
