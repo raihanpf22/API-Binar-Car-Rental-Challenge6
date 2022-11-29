@@ -3,7 +3,6 @@ import carService from "../services/carService";
 import { IResponse } from "../interface/IResponse";
 import jwt from "jsonwebtoken";
 import { JWT } from "../lib/const";
-import userRepository from "../repositories/userRepository";
 const { Cloudinary } = require("../utils/cloudinary");
 
 const app = express();

@@ -1,0 +1,1124 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "API Binar Car Rental TypeScript + JWT + Express + Cloudinary + Multer + Sequelize-typescript - OpenAPI 3.0",
+    "description": "This is a simple API Car Rent Server based on the OpenAPI 3.0 specification.  Building with tech stack : \n1. Typescript\n\n  TypeScript is a super set of JavaScript.\n  TypeScript builds on top of JavaScript. \n  First, you write the TypeScript code. Then, you compile the TypeScript code into plain JavaScript code using a TypeScript compiler.\n2. Express\n\nExpress is a small framework that sits on top of Node.js’s web server functionality to simplify its APIs and add helpful new features.It makes it easier to organize your application’s functionality with middle ware and routing;\n3. JWT\n\nJSON Web Token (JWT) is an open standard ( RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object\n\n4. Cloudinary\n\nCloudinary is a SaaS technology company headquartered in Santa Clara, California,\n\n5. Sequelize\n\nSequelize Sequelize is a modern TypeScript and Node.js ORM for Oracle, Postgres, MySQL, MariaDB, SQLite and SQL Server, and more.",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "apiteam@swagger.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.11"
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "description": "Development Server",
+      "url": "https://localhost:3000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Everything about Authentication, login, register, etc."
+    },
+    {
+      "name": "Car",
+      "description": "API Endpoint about data car, create data, update data, delete data, but you must be login first !"
+    },
+    {
+      "name": "User",
+      "description": "API Endpoint about data user, but still development step, only can list all user"
+    }
+  ],
+
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login for Member, Admin, and Super Admin",
+        "description": "Login For authentication",
+        "operationId": "login",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Email values is an email that you register account",
+            "required": false,
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "The password for login in clear text",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully Login ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success OK !"
+                    },
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImVtYWlsIjoicmFpaGFucGFtYmFneW9AZ21haWwuY29tIiwiaWF0IjoxNjY5Njg4NDUwLCJleHAiOjE2Njk2ODg1MzZ9.QHO0d9auh-8_W_h8BOnPHcN-zc66ZfgmlaO5WvYgpI0"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number",
+                          "example": "13"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Raihan Pambagyo Fadhila"
+                        },
+                        "role": {
+                          "type": "string",
+                          "example": "Super Admin"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "$2b$10$Irk8CqVX5PAyYTcNhsyhje1gSEmyHCzaQ2BCZ280dohCnefVjSsTO"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2022-11-28T09:06:06.561Z"
+                        },
+                        "updatedBy": {
+                          "type": "string",
+                          "example": "2022-11-28T09:06:06.561Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Email or Password Invalid !"
+          }
+        }
+      }
+    },
+
+    "/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Register user for Member role.",
+        "description": "Register User For Member",
+        "operationId": "registerMember",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Fill name with full name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "email  that never be register before !",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "Fill password atleast 8 character",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successfully register as Member",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number",
+                      "example": "201"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success OK!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number",
+                          "example": "16"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Swieta Nurjannah Hetty"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "swieta1@gmail.com"
+                        },
+                        "role": {
+                          "type": "string",
+                          "example": "Member"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "$2b$10$UUswN6q2Wob9P8AgJPN5u.MR8x6bwL6gTVixUeD0gMKkoP4VtrIeC"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2022-11-29T02:39:04.442Z"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2022-11-29T02:39:04.442Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Can't create user !"
+          }
+        }
+      }
+    },
+
+    "/admin/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Register for Admin user, only Super Admin role can register new data Admin",
+        "description": "Register for admin",
+        "operationId": "registerAdmin",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Full name admin",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Email name admin",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "Password must be atleast 8 character",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully created user Admin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number",
+                      "example": "201"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success OK!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number",
+                          "example": "12"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "sakina12@gmail.com"
+                        },
+                        "role": {
+                          "type": "string",
+                          "example": "Admin"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "$2b$10$9THf4Z/rgBaV84cVZKv8x.veTrqgTwHVFcy8pNW6hsVe3H.oDMXSq"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2022-11-29T04:05:29.993Z"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2022-11-29T04:05:29.993Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error Can't create data Admin."
+          }
+        }
+      }
+    },
+
+    "/current_user": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Identity user using JWT Token",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "operationId": "currentUser",
+        "responses": {
+          "200": {
+            "description": "Successfully get identity current User",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": "12"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Raihan Pambagyo Fadhila"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "raihanpambagyo@gmail.com"
+                    },
+                    "role": {
+                      "type": "string",
+                      "example": "Super Admin"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": "$2b$10$Irk8CqVX5PAyYTcNhsyhje1gSEmyHCzaQ2BCZ280dohCnefVjSsTO"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2022-11-28T09:06:06.561Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2022-11-28T09:06:06.561Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Token"
+          }
+        }
+      }
+    },
+
+    "/cars": {
+      "get": {
+        "tags": ["Car"],
+        "summary": "Get all data car, no need authenticate !",
+        "responses": {
+          "200": {
+            "description": "Successfully get all data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success OK!"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number",
+                            "example": "2"
+                          },
+                          "no_police": {
+                            "type": "string",
+                            "example": "B 4022 KFC"
+                          },
+                          "brand": {
+                            "type": "string",
+                            "example": "TOYOTA"
+                          },
+                          "model": {
+                            "type": "string",
+                            "example": "Sedan"
+                          },
+                          "image": {
+                            "type": "string",
+                            "format": "binary",
+                            "example": "http://res.cloudinary.com/dgswqbhcm/image/upload/v1669627808/s11ydtcmy91g4fei42qn.jpg"
+                          },
+                          "price_perday": {
+                            "type": "integer",
+                            "example": "500000"
+                          },
+                          "capacity": {
+                            "type": "integer",
+                            "example": "4"
+                          },
+                          "status": {
+                            "type": "boolean",
+                            "example": "true"
+                          },
+                          "transmision": {
+                            "type": "string",
+                            "example": "Cvt"
+                          },
+                          "type": {
+                            "type": "string",
+                            "example": "Camry"
+                          },
+                          "createdBy": {
+                            "type": "string",
+                            "example": "raihanpambagyo@gmail.com"
+                          },
+                          "updatedBy": {
+                            "type": "string",
+                            "example": "raihanpambagyo@gmail.com"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2022-11-28T09:30:08.321Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "2022-11-28T09:30:08.321Z"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error Can't get data"
+          },
+          "404": {
+            "description": "Error data can't find"
+          }
+        }
+      }
+    },
+    "/cars/create": {
+      "post": {
+        "tags": ["Car"],
+        "summary": "Create New data Car, Only Admin and Super Admin role can hit this endpoint",
+        "description": "Create New Data Car",
+        "parameters": [
+          {
+            "name": "no_police",
+            "in": "query",
+            "description": "Number Plate Car",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "brand",
+            "in": "query",
+            "description": "Brand Company Car",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "model",
+            "in": "query",
+            "description": "Model car",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "image",
+            "in": "query",
+            "description": "Image for car",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          },
+          {
+            "name": "price_perday",
+            "in": "query",
+            "description": "price car for rent perday",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "capacity",
+            "in": "query",
+            "description": "capacity passenger",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Status available car for rent",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "transmision",
+            "in": "query",
+            "description": "type transmision car",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "type car",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully create data car",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number",
+                      "example": "201"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success OK!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number",
+                          "example": "4"
+                        },
+                        "no_police": {
+                          "type": "string",
+                          "example": "B 1405 MCD"
+                        },
+                        "brand": {
+                          "type": "string",
+                          "example": "SUZUKI"
+                        },
+                        "model": {
+                          "type": "string",
+                          "example": "SUV"
+                        },
+                        "image": {
+                          "type": "string",
+                          "example": "http://res.cloudinary.com/dgswqbhcm/image/upload/v1669710307/go2jukll3ed9zr502ywl.jpg",
+                          "format": "binary"
+                        },
+                        "price_perday": {
+                          "type": "integer",
+                          "format": "int64",
+                          "example": "500000"
+                        },
+                        "capacity": {
+                          "type": "integer",
+                          "format": "int64",
+                          "example": "4"
+                        },
+                        "status": {
+                          "type": "boolean",
+                          "example": "true"
+                        },
+                        "transmision": {
+                          "type": "string",
+                          "example": "Manual 4X4"
+                        },
+                        "type": {
+                          "type": "string",
+                          "example": "Jimny"
+                        },
+                        "createdBy": {
+                          "type": "string",
+                          "example": "raihanpambagyo@gmail.com"
+                        },
+                        "updatedBy": {
+                          "type": "string",
+                          "example": "raihanpambagyo@gmail.com"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2022-11-29T08:25:08.294Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2022-11-29T08:25:08.294Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error Can't Create Data"
+          },
+          "401": {
+            "description": "You're role can't have access"
+          }
+        },
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ]
+      }
+    },
+
+    "/cars/edit/{carId}": {
+      "put": {
+        "tags": ["Car"],
+        "summary": "Update Data Car",
+        "description": "Update data car using parameter carId",
+        "operationId": "updateCar",
+        "security": [{ "bearerToken": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "ID is using for update the data car",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "no_police",
+            "in": "query",
+            "description": "Number Plate Car",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "brand",
+            "in": "query",
+            "description": "brand company car",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "model",
+            "in": "query",
+            "description": "model the car",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "image",
+            "in": "query",
+            "description": "image for car",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          },
+          {
+            "name": "price_perday",
+            "in": "query",
+            "description": "price car for rent perday",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "capacity",
+            "in": "query",
+            "description": "capacity passenger",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Status available car",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "transmision",
+            "in": "query",
+            "description": "transmision type car",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "type car",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success updated data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number",
+                      "example": "201"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success OK!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number",
+                          "example": "1"
+                        },
+                        "no_police": {
+                          "type": "string",
+                          "example": "D 1244 KLZ"
+                        },
+                        "brand": {
+                          "type": "string",
+                          "example": "TOYOTA"
+                        },
+                        "model": {
+                          "type": "string",
+                          "example": "SUV"
+                        },
+                        "image": {
+                          "type": "string",
+                          "format": "binary",
+                          "example": "https://img-ik.cars.co.za/images/2020/6/ToyotaFortuner/tr:n-news_1200x/Fortuner5.jpg"
+                        },
+                        "price_perday": {
+                          "type": "integer",
+                          "format": "int64",
+                          "example": "250000"
+                        },
+                        "capacity": {
+                          "type": "integer",
+                          "format": "int64",
+                          "example": "7"
+                        },
+                        "status": {
+                          "type": "boolean",
+                          "example": "true"
+                        },
+                        "transmision": {
+                          "type": "string",
+                          "example": "Automatic"
+                        },
+                        "type": {
+                          "type": "string",
+                          "example": "Fortuner"
+                        },
+                        "createdBy": {
+                          "type": "string",
+                          "example": "raihanpambagyo@gmail.com"
+                        },
+                        "updatedBy": {
+                          "type": "string",
+                          "example": "raihanpambagyo@gmail.com"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2022-11-29T08:25:08.294Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2022-11-29T08:25:08.294Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "can't updated data"
+          }
+        }
+      }
+    },
+
+    "/cars/delete/{carId}": {
+      "delete": {
+        "tags": ["Car"],
+        "summary": "Delete Data by Id car",
+        "description": "Delete data by Id Car and only Admin and Super Admin can hit endpoint",
+        "operationId": "deleteCar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Id car for delete the data",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "security": [{ "bearerToken": [] }],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success OK!"
+                    },
+                    "data": {
+                      "type": "string",
+                      "example": "Successfully deleted Data !"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unathourized"
+          },
+          "400": {
+            "description": "Can't delete data"
+          },
+          "404": {
+            "description": "Can't find data"
+          }
+        }
+      }
+    },
+
+    "/users": {
+      "get": {
+        "tags": ["User"],
+        "security": [{ "bearerToken": [] }],
+        "summary": "Get All Data User (Member, Admin, Super Admin)",
+        "description": "Get All User",
+        "operationId": "getUser",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successfully get data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success OK!"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number",
+                            "example": "16"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Swieta Nurjannah Hetty"
+                          },
+                          "email": {
+                            "type": "string",
+                            "example": "swieta1@gmail.com"
+                          },
+                          "role": {
+                            "type": "string",
+                            "example": "Member"
+                          },
+                          "password": {
+                            "type": "string",
+                            "example": "$2b$10$UUswN6q2Wob9P8AgJPN5u.MR8x6bwL6gTVixUeD0gMKkoP4VtrIeC"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2022-11-29T02:39:04.442Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "2022-11-29T02:39:04.442Z"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error can't get data"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Data Not Found"
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Auth": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "raihanpambagyo@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "your password"
+          }
+        },
+        "xml": {
+          "name": "auth"
+        }
+      },
+      "Car": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": "1"
+          },
+          "no_police": {
+            "type": "string",
+            "example": "B 14045 MCD"
+          },
+          "brand": {
+            "type": "string",
+            "example": "TOYOTA"
+          },
+          "model": {
+            "type": "string",
+            "example": "SUV"
+          },
+          "image": {
+            "type": "string",
+            "example": "http://res.cloudinary.com/dgswqbhcm/image/upload/v1669627808/s11ydtcmy91g4fei42qn.jpg"
+          },
+          "price_perday": {
+            "type": "integer",
+            "example": "500000"
+          },
+          "capacity": {
+            "type": "integer",
+            "example": "7"
+          },
+          "status": {
+            "type": "boolean",
+            "example": "true"
+          },
+          "transmision": {
+            "type": "string",
+            "example": "Manual"
+          },
+          "type": {
+            "type": "string",
+            "example": "Fortuner"
+          },
+          "createdBy": {
+            "type": "string",
+            "example": "raihanpambagyo@gmail.com"
+          },
+          "updatedBy": {
+            "type": "string",
+            "example": "raihanpambagyo@gmail.com"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2022-11-28T09:06:06.571Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2022-11-28T09:06:06.571Z"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": "1"
+          },
+          "name": {
+            "type": "string",
+            "example": "Raihan Pambagyo Fadhila"
+          },
+          "email": {
+            "type": "string",
+            "example": "raihanpambagyo@gmail.com"
+          },
+          "role": {
+            "type": "string",
+            "example": "Super Admin"
+          },
+          "password": {
+            "type": "string",
+            "example": "your password"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2022-11-28T09:06:06.571Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2022-11-28T09:06:06.571Z"
+          }
+        }
+      }
+    }
+  }
+}

@@ -6,12 +6,17 @@ import { carList, carCreate, carUpdate, carDelete, carAvailable } from './src/co
 import { userList } from "./src/controllers/userController";
 import { authenticate, isSuperAdmin, isNotMember, currentUser } from './src/middlewares/authMiddleware';
 import { multerUpload } from "./src/utils/multer";
+import swaggerUI from 'swagger-ui-express'
+import * as swaggerDocument from './src/swagger.json'
+import * as dotenv from "dotenv";
 
+dotenv.config();
 // Initialize the express engine
 const app: express.Application = express();
-app.use(express.json());
 
-require("dotenv").config();
+app.use(express.json());
+app.use('/swagger', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
+
 
 // Take a port 3000 for running server.
 const port = process.env.PORT;
@@ -32,13 +37,13 @@ app.post("/login", login);
 app.get("/cars", carList)
 
 // Create data car
-app.post("/cars", authenticate, isNotMember, multerUpload.single('image'), carCreate)
+app.post("/cars/create", authenticate, isNotMember, multerUpload.single('image'), carCreate)
 
 // Update data car
-app.put("/cars/:id", authenticate, isNotMember, carUpdate)
+app.put("/cars/edit/:id", authenticate, isNotMember, carUpdate)
 
 // Delete data car
-app.delete("/cars/:id", authenticate, isNotMember, carDelete)
+app.delete("/cars/delete/:id", authenticate, isNotMember, carDelete)
 
 // Current User
 app.get("/current_user", authenticate, currentUser)
