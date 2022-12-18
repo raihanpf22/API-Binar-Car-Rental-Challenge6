@@ -1,7 +1,7 @@
 // Import the express in typescript file
 import express from "express";
 import connection from "./src/config/connection";
-import { register, login, registerAdmin } from "./src/controllers/authController";
+import { register, login, registerAdmin, googleLogin } from "./src/controllers/authController";
 import { carList, carCreate, carUpdate, carDelete, carAvailable } from './src/controllers/carController';
 import { userList } from "./src/controllers/userController";
 import { authenticate, isSuperAdmin, isNotMember, currentUser } from './src/middlewares/authMiddleware';
@@ -9,17 +9,22 @@ import { multerUpload } from "./src/utils/multer";
 import swaggerUI from 'swagger-ui-express'
 import * as swaggerDocument from './src/swagger.json'
 import * as dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 // Initialize the express engine
 const app: express.Application = express();
 
 app.use(express.json());
+app.use(cors());
 app.use('/swagger', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 
 // Take a port 3000 for running server.
 const port = process.env.PORT;
+
+// Post Google Login
+app.post("/google_login", googleLogin)
 
 // Get All user
 app.get("/users", authenticate, userList);

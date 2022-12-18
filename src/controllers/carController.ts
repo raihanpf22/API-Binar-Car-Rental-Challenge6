@@ -14,7 +14,7 @@ export const carList = async (
 ): Promise<Response> => {
   const Result: IResponse = await carService.list();
 
-  return res.status(200).send({
+  return res.status(Result.status_code).send({
     status_code: Result.status_code,
     message: Result.message,
     data: Result.data,
@@ -26,7 +26,7 @@ export const carCreate = async (
   res: Response
 ): Promise<Response> => {
   const authHeader = req.get("Authorization");
-  let token:string = "";
+  let token: string = "";
 
   if (authHeader && authHeader.startsWith("Bearer")) {
     token = authHeader.split(" ")[1];
@@ -63,11 +63,11 @@ export const carCreate = async (
     status,
     transmision,
     type,
-    createdBy:email,
-    updatedBy:email,
+    createdBy: email,
+    updatedBy: email,
   });
 
-  return res.status(201).send({
+  return res.status(status_code).send({
     status_code: status_code,
     message: message,
     data: data,
@@ -118,15 +118,15 @@ export const carUpdate = async (
     status,
     transmision,
     type,
-    updatedBy:email,
-    UpdatedAt:update_at
+    updatedBy: email,
+    UpdatedAt: update_at,
   });
 
   const { status_code, message, data }: IResponse = await carService.getById({
     id,
   });
 
-  return res.status(201).send({
+  return res.status(status_code).send({
     status_code: status_code,
     message: message,
     data: data,
@@ -143,7 +143,7 @@ export const carDelete = async (
     id,
   });
 
-  return res.status(200).send({
+  return res.status(status_code).send({
     status_code: status_code,
     message: message,
     data: data,
@@ -157,7 +157,7 @@ export const carAvailable = async (
   const { status_code, message, data }: IResponse =
     await carService.getCarAvailable();
 
-  return res.status(200).send({
+  return res.status(status_code).send({
     status_code: status_code,
     message: message,
     data: data,

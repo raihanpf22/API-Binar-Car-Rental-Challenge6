@@ -11,7 +11,7 @@ export const userList = async (
 ): Promise<Response> => {
   const Result: IResponse = await userService.list();
 
-  return res.status(200).send({
+  return res.status(Result.status_code).send({
     status_code: Result.status_code,
     message: Result.message,
     data: Result.data,

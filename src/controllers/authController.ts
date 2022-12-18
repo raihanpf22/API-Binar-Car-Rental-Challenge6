@@ -15,7 +15,7 @@ export const register = async (
     password,
   });
 
-  return res.status(201).send({
+  return res.status(status_code).send({
     status_code: status_code,
     message: message,
     data: data,
@@ -34,7 +34,7 @@ export const registerAdmin = async (
     password,
   });
 
-  return res.status(201).send({
+  return res.status(status_code).send({
     status_code: status_code,
     message: message,
     data: data,
@@ -50,7 +50,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
       password,
     });
 
-  return res.status(200).send({
+  return res.status(status_code).send({
     status_code: status_code,
     message: message,
     token: token,
@@ -58,3 +58,20 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
   });
 };
 
+export const googleLogin = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { credential } = req.body;
+  console.log(credential, "credential controller");
+  
+
+  const { status_code, message, data }: IResponse =
+    await authService.loginGoogle({ credential });
+
+  return res.status(status_code).send({
+    status_code: status_code,
+    message: message,
+    data: data,
+  });
+};

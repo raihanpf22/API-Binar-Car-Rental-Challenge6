@@ -1,8 +1,12 @@
+import { OAuth2Client, TokenPayload } from "google-auth-library";
 import jwt from "jsonwebtoken";
 const bcrypt = require("bcrypt");
 import { IUser } from "../interface/IUser";
 import { JWT } from "../lib/const";
+import * as dotenv from "dotenv";
 import userRepository from "../repositories/userRepository";
+
+dotenv.config();
 
 class authService {
   static async register({ name, email, password }: IUser) {
@@ -127,7 +131,7 @@ class authService {
       return {
         status_code: 400,
         message: error.message,
-        data:"Null"
+        data: "Null",
       };
     }
   }
@@ -184,6 +188,56 @@ class authService {
             data: "Null",
           };
         }
+      }
+    } catch (error: any) {
+      return {
+        status_code: 400,
+        message: error.message,
+        data: "Null",
+      };
+    }
+  }
+
+  static async loginGoogle(googleCredential: any) {
+    try {
+      console.log(googleCredential, "googlecred nya");
+      
+      // Get google user credential
+      const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+      console.log(client, "clientnya");
+
+      const userInfo = await client.verifyIdToken({
+        idToken: googleCredential,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      });
+      console.log(userInfo, "userInfonya");
+
+      const payload = userInfo.getPayload();
+      console.log(payload, "payloadnya");
+
+      if (payload != undefined && payload.email_verified) {
+        const email = payload.email;
+
+        const getUserByEmail = userRepository.getByEmail({ email });
+        if (!getUserByEmail) {
+          return {
+            status_code: 200,
+            message: "Success OK!",
+            data: getUserByEmail,
+          };
+        } else {
+          return {
+            status_code: 404,
+            message: "Data Not Found.",
+            data: "Null",
+          };
+        }
+      } else {
+        return {
+          status_code: 404,
+          message: "User Info Not Found.",
+          data: "Null",
+        };
       }
     } catch (error: any) {
       return {
