@@ -63,8 +63,6 @@ export const googleLogin = async (
   res: Response
 ): Promise<Response> => {
   const { credential } = req.body;
-  console.log(credential, "credential controller");
-  
 
   const { status_code, message, data }: IResponse =
     await authService.loginGoogle({ credential });

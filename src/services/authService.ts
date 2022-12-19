@@ -1,4 +1,4 @@
-import { OAuth2Client, TokenPayload } from "google-auth-library";
+import { LoginTicket, OAuth2Client, TokenPayload } from "google-auth-library";
 import jwt from "jsonwebtoken";
 const bcrypt = require("bcrypt");
 import { IUser } from "../interface/IUser";
@@ -200,30 +200,34 @@ class authService {
 
   static async loginGoogle(googleCredential: any) {
     try {
-      console.log(googleCredential, "googlecred nya");
-      
       // Get google user credential
       const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-      console.log(client, "clientnya");
 
-      const userInfo = await client.verifyIdToken({
-        idToken: googleCredential,
+      const userInfo: LoginTicket = await client.verifyIdToken({
+        idToken: googleCredential.credential,
         audience: process.env.GOOGLE_CLIENT_ID,
       });
-      console.log(userInfo, "userInfonya");
 
       const payload = userInfo.getPayload();
-      console.log(payload, "payloadnya");
 
       if (payload != undefined && payload.email_verified) {
         const email = payload.email;
 
-        const getUserByEmail = userRepository.getByEmail({ email });
-        if (!getUserByEmail) {
+        const getUserByEmail = await userRepository.getByEmail({ email });
+
+        if (getUserByEmail) {
+
+          const token = jwt.sign({
+            id: getUserByEmail.id,
+            email: getUserByEmail.email
+          }, JWT.SECRET as string, {
+            expiresIn:JWT.EXPIRED
+          })
+
           return {
             status_code: 200,
             message: "Success OK!",
-            data: getUserByEmail,
+            data: token,
           };
         } else {
           return {
