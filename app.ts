@@ -1,5 +1,5 @@
 // Import the express in typescript file
-import express from "express";
+import express from "express"
 import connection from "./src/config/connection";
 import {
   register,
