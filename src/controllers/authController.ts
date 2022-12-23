@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import { Request, Response } from "express";
 import authService from "../services/authService";
 import { IResponse } from "../interface/IResponse";
 import { IUser } from "../interface/IUser";

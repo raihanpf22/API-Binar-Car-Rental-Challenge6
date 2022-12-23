@@ -5,7 +5,7 @@ import userRepository from "../repositories/userRepository";
 
 export const authenticate = async (req: any, res: any, next: any) => {
   const authHeader = req.get("Authorization");
-  let token: string = "";
+  let token = "";
 
   if (authHeader && authHeader.startsWith("Bearer")) {
     token = authHeader.split(" ")[1];

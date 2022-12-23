@@ -1,4 +1,3 @@
-import { type } from "os";
 import {
   Table,
   Model,
@@ -19,7 +18,7 @@ export class Car extends Model {
     primaryKey: true,
     autoIncrement: true,
   })
-  id!: Number;
+  id!: number;
 
   @Column({
     type: DataType.STRING,
@@ -49,13 +48,13 @@ export class Car extends Model {
     type: DataType.INTEGER,
     allowNull: false,
   })
-  price_perday!: Number;
+  price_perday!: number;
 
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
-  capacity!: Number;
+  capacity!: number;
 
   @Column({
     type: DataType.BOOLEAN,

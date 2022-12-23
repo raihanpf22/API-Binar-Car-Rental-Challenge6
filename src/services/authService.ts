@@ -1,6 +1,6 @@
-import { LoginTicket, OAuth2Client, TokenPayload } from "google-auth-library";
+import { LoginTicket, OAuth2Client } from "google-auth-library";
 import jwt from "jsonwebtoken";
-const bcrypt = require("bcrypt");
+import bcrypt from "bcrypt";
 import { IUser } from "../interface/IUser";
 import { JWT } from "../lib/const";
 import * as dotenv from "dotenv";
@@ -216,13 +216,16 @@ class authService {
         const getUserByEmail = await userRepository.getByEmail({ email });
 
         if (getUserByEmail) {
-
-          const token = jwt.sign({
-            id: getUserByEmail.id,
-            email: getUserByEmail.email
-          }, JWT.SECRET as string, {
-            expiresIn:JWT.EXPIRED
-          })
+          const token = jwt.sign(
+            {
+              id: getUserByEmail.id,
+              email: getUserByEmail.email,
+            },
+            JWT.SECRET as string,
+            {
+              expiresIn: JWT.EXPIRED,
+            }
+          );
 
           return {
             status_code: 200,

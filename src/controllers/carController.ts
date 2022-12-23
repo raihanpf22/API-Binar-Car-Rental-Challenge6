@@ -1,4 +1,4 @@
-import express, { Request, response, Response } from "express";
+import express, { Request, Response } from "express";
 import carService from "../services/carService";
 import { IResponse } from "../interface/IResponse";
 import jwt from "jsonwebtoken";
@@ -26,7 +26,7 @@ export const carCreate = async (
   res: Response
 ): Promise<Response> => {
   const authHeader = req.get("Authorization");
-  let token: string = "";
+  let token = "";
 
   if (authHeader && authHeader.startsWith("Bearer")) {
     token = authHeader.split(" ")[1];
@@ -81,7 +81,7 @@ export const carUpdate = async (
   const { id } = req.params;
 
   const authHeader = req.get("Authorization");
-  let token: string = "";
+  let token = "";
 
   if (authHeader && authHeader.startsWith("Bearer")) {
     token = authHeader.split(" ")[1];
